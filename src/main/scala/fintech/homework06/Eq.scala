@@ -34,7 +34,20 @@ object EqInstances {
       case _                    => false
     }
   }
+
+  implicit def mapInstance[K: Eq, T: Eq]: Eq[Map[K, T]] = new Eq[Map[K, T]] {
+    def equiv(lft: Map[K, T], rgt: Any): Boolean = rgt match {
+      case x: Map[K, T] =>
+        val keysEq = implicitly[Eq[K]]
+        val valuesEq = implicitly[Eq[T]]
+        lft.size == x.size && lft.keySet.zip(x.keySet).forall(keysPair => keysEq.equiv(keysPair._1, keysPair._2)) &&
+        lft.values.zip(x.values).forall(valuesPair => valuesEq.equiv(valuesPair._1, valuesPair._2))
+      case _ =>
+        false
+    }
+  }
 }
+
 object EqSyntax {
   implicit class EqOps[T: Eq](self: T) {
     def ====(other: Any): Boolean = implicitly[Eq[T]].equiv(self, other)
