@@ -9,6 +9,14 @@ trait Eq[-T] {
   def equiv(lft: T, rgt: Any): Boolean
 }
 
+object EqInstances {
+  def atomInstance[T]: Eq[T] = new Eq[T] {
+    def equiv(lft: T, rgt: Any): Boolean = lft == rgt
+  }
+  implicit val intInstance: Eq[Int] = atomInstance[Int]
+  implicit val stringInstance: Eq[String] = atomInstance[String]
+  implicit val noneInstance: Eq[None.type] = atomInstance[None.type]
+}
 object EqSyntax {
   implicit class EqOps[T: Eq](self: T) {
     def ====(other: Any): Boolean = implicitly[Eq[T]].equiv(self, other)
