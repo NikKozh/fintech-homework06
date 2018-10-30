@@ -5,6 +5,13 @@ package fintech.homework06
 Опционально - разработать === для комплексных чисел с возможностью указать точность
 */
 
-trait Eq[A] {
-  def equiv(lft: A, rgt: A)
+trait Eq[-T] {
+  def equiv(lft: T, rgt: Any): Boolean
+}
+
+object EqSyntax {
+  implicit class EqOps[T: Eq](self: T) {
+    def ====(other: Any): Boolean = implicitly[Eq[T]].equiv(self, other)
+  }
+}
 }
