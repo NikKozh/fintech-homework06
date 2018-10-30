@@ -53,4 +53,3 @@ object EqSyntax {
     def ====(other: Any): Boolean = implicitly[Eq[T]].equiv(self, other)
   }
 }
-}
