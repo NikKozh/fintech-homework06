@@ -26,6 +26,14 @@ object EqInstances {
         false
     }
   }
+
+  implicit def optionInstance[T: Eq]: Eq[Option[T]] = new Eq[Option[T]] {
+    def equiv(lft: Option[T], rgt: Any): Boolean = (lft, rgt) match {
+      case (None, None)         => true
+      case (Some(x1), Some(x2)) => implicitly[Eq[T]].equiv(x1, x2)
+      case _                    => false
+    }
+  }
 }
 object EqSyntax {
   implicit class EqOps[T: Eq](self: T) {
