@@ -1,4 +1,4 @@
-package fintech.homework04
+package fintech.homework06
 import org.scalatest.{FlatSpec, Matchers}
 
 class EqSpec extends FlatSpec with Matchers {
