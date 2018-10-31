@@ -15,6 +15,18 @@ trait AccEqInstances {
         false
     }
   }
+
+  import fintech.homework02.ComplexNumber
+  import AccEqSyntax._
+
+  implicit val complexNumInstance: AccEq[ComplexNumber] = new AccEq[ComplexNumber] {
+    def equivAcc(lft: ComplexNumber, rgt: Any, precise: Int): Boolean = rgt match {
+      case ComplexNumber(real, imaginary) =>
+        (lft.real ~~ real)(precise) && (lft.imaginary ~~ imaginary)(precise)
+      case _ =>
+        false
+    }
+  }
 }
 
 object AccEqSyntax {
