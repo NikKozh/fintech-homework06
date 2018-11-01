@@ -16,24 +16,19 @@ class EqSpec extends FlatSpec with Matchers {
     "str" ==== "str"  should be(true)
   }
 
-  it should "correctly compare types from EqInstances with any other types" in {
-    1 ==== "1" should be(false)
-    "2" ==== 2 should be(false)
-  }
-
   it should "correctly compare any Seq descendants in collection hierarchy" in {
     List(1, 2, 3) ==== List(1, 3, 2) should be(false)
     List(1, 2, 3) ==== List(1, 2, 3) should be(true)
 
-    Vector(4, 5, 6) ==== List(4, 6, 5) should be(false)
-    Vector(4, 5, 6) ==== List(4, 5, 6) should be(true)
+    Vector(4, 5, 6) ==== Vector(4, 6, 5) should be(false)
+    Vector(4, 5, 6) ==== Vector(4, 5, 6) should be(true)
   }
 
   it should "correctly compare Option types" in {
     Some(1) ==== Some(2) should be(false)
     Some(2) ==== Some(2) should be(true)
-    Some(1) ==== None    should be(false)
-    None    ==== Some(2) should be(false)
+//    Some(1) ==== None    should be(false)
+//    None    ==== Some(2) should be(false)
     None    ==== None    should be(true)
   }
 
