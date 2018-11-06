@@ -17,16 +17,19 @@ class EqSpec extends FlatSpec with Matchers {
   }
 
   it should "correctly compare any Seq descendants in collection hierarchy" in {
-    List(1, 2, 3) ==== List(1, 3, 2) should be(false)
-    List(1, 2, 3) ==== List(1, 2, 3) should be(true)
+    Seq(1, 2, 3) ==== Seq(1, 3, 2) should be(false)
+    Seq(1, 2, 3) ==== Seq(1, 2, 3) should be(true)
 
-    Vector(4, 5, 6) ==== Vector(4, 6, 5) should be(false)
-    Vector(4, 5, 6) ==== Vector(4, 5, 6) should be(true)
+    Seq(4, 5, 6) ==== Seq(4, 6, 5) should be(false)
+    Seq(4, 5, 6) ==== Seq(4, 5, 6) should be(true)
   }
 
   it should "correctly compare Option types" in {
-    Some(1) ==== Some(2) should be(false)
-    Some(2) ==== Some(2) should be(true)
+    val o1: Option[Int] = Some(1)
+    val o2: Option[Int] = Some(2)
+
+    o1 ==== o2 should be(false)
+    o2 ==== o2 should be(true)
 //    Some(1) ==== None    should be(false)
 //    None    ==== Some(2) should be(false)
     None    ==== None    should be(true)
@@ -39,13 +42,16 @@ class EqSpec extends FlatSpec with Matchers {
   }
 
   it should "correctly compare complex nested types" in {
-    Some(List(2, 3)) ==== Some(List(2, 4)) should be(false)
-    Some(List(2, 3)) ==== Some(List(2, 3)) should be(true)
+    val o1: Option[Seq[Int]] = Some(Seq(2, 3))
+    val o2: Option[Seq[Int]] = Some(Seq(2, 4))
 
-    Map(1 -> List(Some(1), None), 2 -> List(Some(2), None)) ====
-      Map(1 -> List(Some(1), None), 2 -> List(None, Some(2))) should be(false)
+    o1 ==== o2 should be(false)
+    o1 ==== o1 should be(true)
 
-    Map(1 -> List(Some(1), None), 2 -> List(Some(2), None)) ====
-      Map(1 -> List(Some(1), None), 2 -> List(Some(2), None)) should be(true)
+    Map(1 -> Seq(Some(1), None), 2 -> Seq(Some(2), None)) ====
+      Map(1 -> Seq(Some(1), None), 2 -> Seq(None, Some(2))) should be(false)
+
+    Map(1 -> Seq(Some(1), None), 2 -> Seq(Some(2), None)) ====
+      Map(1 -> Seq(Some(1), None), 2 -> Seq(Some(2), None)) should be(true)
   }
 }

@@ -5,7 +5,7 @@ package fintech.homework06
 Опционально - разработать === для комплексных чисел с возможностью указать точность
 */
 
-trait Eq[-T] {
+trait Eq[T] {
   def equiv(lft: T, rgt: T): Boolean
 }
 
